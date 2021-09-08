@@ -7,13 +7,15 @@ const {
     adminSignup
 } = require('../controller/user')
 
-const isAuth = require('../middleware/authintication')
+const {isAuth} = require('../middleware/authintication')
 
-router.post('/signup', userSignup)
-router.post('/login', userLogin)
+const{signupValidate,authValidationResult,signinValidate} = require('../validators/signupValidation')
+
+router.post('/signup',signupValidate,authValidationResult, userSignup)
+router.post('/login',signinValidate,authValidationResult, userLogin)
 router.get('/allUser', isAuth, getAllUser)
 
-router.post('/adminSignup', adminSignup)
-router.post('/adminLogin', adminLogin)
+router.post('/adminSignup',signupValidate,authValidationResult, adminSignup)
+router.post('/adminLogin',signinValidate,authValidationResult, adminLogin)
 
 module.exports = router
